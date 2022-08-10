@@ -2,7 +2,8 @@ package com.wavemaker.training.db.dao;
 
 
 import com.wavemaker.training.db.connection.MySQLConnectionUtility;
-import com.wavemaker.training.db.model.Employee;
+import com.wavemaker.training.db.dao.Employee;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ import java.util.List;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Employees");
-            while (resultSet.next()) {// points to Row ON each iteration
-                //ID, NAME, AGE, ADDRESS
-                int id = resultSet.getInt("ID");
+            while (resultSet.next()) {
+
+                int id = resultSet.getInt("id");
                 String name = resultSet.getString("NAME");
                 String gender = resultSet.getString("gender");
                 String DOB = resultSet.getString("DOB");
@@ -39,18 +40,17 @@ import java.util.List;
         //TDOO
         Connection connection = MySQLConnectionUtility.getConnection();
         try {
-            String sql = "INSERT INTO  Employees(id, name,gender,DOB, dept_id, address_id) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO  Employees(id, name,gender,DOB, dept_id, address_id) VALUES (?, ?, ?, ?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, employee.getId());
             statement.setString(2, employee.getName());
             statement.setString(3, employee.getGender());
             statement.setString(4, employee.getDOB());
-            statement.setInt(1, employee.getDept_id());
-            statement.setInt(1, employee.getAddress_id());
+            statement.setInt(5, employee.getDept_id());
+            statement.setInt(6, employee.getAddress_id());
 
-            statement.setInt(5, 1);
-            statement.setString(6, "10");
+
 
 
             int rowsInserted = statement.executeUpdate();
@@ -65,10 +65,10 @@ import java.util.List;
     public void deleteEmployee(Employee employee) {
         Connection connection = MySQLConnectionUtility.getConnection();
         try {
-            String sql = "DELETE FROM Employees WHERE name=?";
+            String sql = "DELETE FROM Employees WHERE id=?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, employee.getName() );
+            statement.setInt(1, employee.getId() );
 
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
@@ -83,12 +83,11 @@ import java.util.List;
     public void UpdateEmployee(Employee employee){
         Connection connection = MySQLConnectionUtility.getConnection();
         try {
-            String sql = "UPDATE Employees SET id=?, name=?, dept_id=? WHERE id=?";
+            String sql = "UPDATE Employees SET  name=?, dept_id=? WHERE id=?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,employee.getId() );
-            statement.setString(2, employee.getName());
-            statement.setInt(3, employee.getDept_id());
+            statement.setString(1, employee.getName());
+            statement.setInt(2, employee.getDept_id());
             statement.setInt(3, employee.getId());
 
 

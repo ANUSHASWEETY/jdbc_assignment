@@ -1,9 +1,7 @@
 package com.wavemaker.training.db.dao;
 
-
 import com.wavemaker.training.db.connection.MySQLConnectionUtility;
-import com.wavemaker.training.db.model.Department;
-
+import com.wavemaker.training.db.dao.Department;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +17,8 @@ public class DepartmentDAO {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Department");
             while (resultSet.next()) {// points to Row ON each iteration
                 //ID, NAME, AGE, ADDRESS
-                int id = resultSet.getInt("DEPT_ID");
-                String name = resultSet.getString("DEPT_NAME");
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
 
 
                 DepartmentList.add(new Department(id, name));
@@ -32,15 +30,15 @@ public class DepartmentDAO {
         return DepartmentList ;
     }
 
-    public void createDepartment() {
+    public void createDepartment(Department department) {
         //TDOO
         Connection connection = MySQLConnectionUtility.getConnection();
         try {
             String sql = "INSERT INTO Department (id, name) VALUES (?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, 1);
-            statement.setString(2, "Maraketing");
+            statement.setInt(1, department.getId());
+            statement.setString(2, department.getName());
 
 
 
@@ -74,14 +72,11 @@ public class DepartmentDAO {
     public void UpdateDepartment(Department department){
         Connection connection = MySQLConnectionUtility.getConnection();
         try {
-            String sql = "UPDATE Employees SET id=?, name=?, dept_id=? WHERE id=?";
+            String sql = "UPDATE Department SET name=? WHERE dept_id=?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,department.getId() );
             statement.setString(2, department.getName());
-
-
-
+            statement.setInt(1,department.getId() );
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("An existing department was updated successfully!");

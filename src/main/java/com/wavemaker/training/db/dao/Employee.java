@@ -1,4 +1,4 @@
-package com.wavemaker.training.db.model;
+package com.wavemaker.training.db.dao;
 
 
 public class Employee {
@@ -10,15 +10,17 @@ public class Employee {
     private String DOB;
     private int dept_id;
     private int address_id;
-    public Employee() {
-    }
-    public Employee(int id, String name,String gender,String DOB,int dept_id,int address_id) {
+    public Employee(int id, String name, String gender, String DOB, int dept_id, int address_id) {
         this.Id= id;
         this.name = name;
         this.gender=gender;
         this.DOB=DOB;
         this.dept_id = dept_id;
         this.address_id=address_id;
+
+    }
+
+    public  Employee() {
 
     }
 

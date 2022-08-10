@@ -1,4 +1,4 @@
-package com.wavemaker.training.db.model;
+package com.wavemaker.training.db.dao;
 
 
 public class Department{
